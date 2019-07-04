@@ -2,9 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>MTA</title>
+    <script>
+        const service = 'demo.mymmx.se/kiosk',
+        iFrameID = 'frame-caller';
+
+        function showControl() {
+            document.getElementById(iFrameID).src = "about:blank";
+            document.getElementById(iFrameID).style.display = "none";
+            document.getElementById("control-panel").style.display = "block";
+        }
+
+        function showIframe() {
+            document.getElementById("control-panel").style.display = "none";
+            document.getElementById(iFrameID).style.display = "block";
+        }
+
+        function makeCall(t, e, a, n, l) {
+            showIframe()
+            mmxCall(t, e, a, n, l)
+            // setTimeout(() => {
+            //     showControl()
+            // }, 20000)
+        }
+
+        function mmxCallCalling() {
+            // This function is called when the call is being made
+            console.log('MMX', 'is calling');
+        }
+
+        function mmxCallAccepted() {
+            // This function is called when the other party has accepted the call
+            console.log('MMX', 'The call was accepted');
+        }
+
+        function mmxCallCompleted() {
+            // This function is called when the call is completed
+            console.log('MMX', 'The call was completed');
+            showControl()
+        }
+
+        function mmxCallRejected() {
+            // This function is called if the call is rejected
+            console.log('MMX', 'The call was rejected');
+            showControl()
+        }
+
+        function mmxCallAborted() {
+            // This function is called if the user aborts the call
+            console.log('MMX', 'The call was aborted');
+            showControl()
+        }
+
+        function mmxCallEnded() {
+            // This function is called when the call is ended
+            console.log('MMX', 'The call was ended');
+            showControl()
+        }
+
+        function mmxCallUnknown() {
+            // This function is called if the service reports the called number as unknown
+            console.log('MMX', 'Call to unknown number');
+            showControl()
+        }
+
+        function mmxCallUnRegistered() {
+            // This function is called if the service is configured to only allow pre-registered numbers and a call is made to a unregistered one
+            console.log('MMX', 'Call to an unregistered number');
+            showControl()
+        }
+
+        function mmxUnAuthorized() {
+            // This function is called if a call is placed with invalid credentials
+            console.log('MMX', 'Wrong username or password');
+            showControl()
+        }
+    </script>
+    <style>
+        /* CSS reset */
+        html, body, div, span, iframe, audio, video {margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #header {
+            height: 15%;
+            margin-left: 20%;
+        }
+
+        #header::before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            width: 0;
+            vertical-align: middle;
+        }
+
+        #header .logo {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #control-panel {
+            width: 100%;
+            height: 85%;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        #control-panel .btn {
+            display: inline-block;
+            width: 256px;
+            height: 64px;
+            font-size: 1.2em;
+            border-radius: 128px / 32px;
+            color: #fff;
+            background: linear-gradient(#a8ccfc, #5898d7);
+        }
+
+        #control-panel .title {
+            display: block;
+            margin-bottom: 0.5em;
+            font-size: 1.2em;
+        }
+
+        #control-panel .btn-group {
+            margin-bottom: 3em;
+        }
+
+        #control-panel button:active {
+            color: #ddd;
+        }
+
+        #frame-caller {
+            display: none;
+            width: 100%;
+            height: 85%;
+            top: 0;
+            left: 0;
+            background: #e4e4e4 url('./loading.gif') no-repeat fixed center;
+
+        }
+    </style>
 </head>
 <body>
-    Hello MTA
+    <div id="header">
+        <img class="logo" src="./logo.png" alt="">
+    </div>
+    <div id="control-panel">
+        <p class="btn-group">
+            <span class="title">PRESS BUTTON FOR LIVE AGENT</span>
+            <button class="btn" onClick="makeCall(1, 'bXRhZGVtb0BkZW1vLm15bW14LnNl', 'cml0emRlbW8=', 'MjQ6eTQ/cnQ=', '');">ENGLISH</button>
+        </p>
+
+        <p class="btn-group">
+            <span class="title">BOTON DE PRENSA PARA EL AGENTE VIVO</span>
+            <button class="btn" onClick="makeCall(1, 'bXRhZGVtb0BkZW1vLm15bW14LnNl', 'cml0emRlbW8=', 'MjQ6eTQ/cnQ=', '');">ESPANOL</button>
+        </p>
+
+        <p class="btn-group">
+            <span class="title">現場代理的按鈕</span>
+            <button class="btn" onClick="makeCall(1, 'bXRhZGVtb0BkZW1vLm15bW14LnNl', 'cml0emRlbW8=', 'MjQ6eTQ/cnQ=', '');">普通話</button>
+        </p>
+    </div>
+
+    <iframe id="frame-caller" allow="microphone *; camera *;"></iframe>
+    <script src="oneClickCall.min.js"></script>
 </body>
 </html>
